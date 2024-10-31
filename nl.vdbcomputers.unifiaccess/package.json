@@ -1,0 +1,18 @@
+{
+  "name": "com.company.myapp",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore ."
+  },
+  "devDependencies": {
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.7",
+    "eslint": "^7.32.0",
+    "eslint-config-athom": "^3.1.3"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "homey-log-to-file": "github:robertklep/homey-log-to-file",
+    "ws": "^8.18.0"
+  }
+}

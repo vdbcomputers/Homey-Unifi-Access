@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- The '/homey.js' script must be included in your settings view to work -->
+    <script
+      type="text/javascript"
+      src="/homey.js"
+      data-origin="settings"
+    ></script>
+  </head>
+  <body>
+    <header class="homey-header">
+      <h1 class="homey-title" data-i18n="settings.title">
+        <!-- This will be filled with the translated string with key 'settings.title'. -->
+      </h1>
+      <p class="homey-subtitle" data-i18n="settings.subtitle">
+        <!-- This field will also be translated -->
+      </p>
+    </header>
+
+    <fieldset class="homey-form-fieldset">
+      <legend class="homey-form-legend">Communication settings</legend>
+		<p>Enter your IP address of uf unifi access api and the correct port number here</p>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="ipadress">Ipadress</label>
+        <input class="homey-form-input" id="ipadress" type="text" value="" />
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="port">Port</label>
+        <input class="homey-form-input" id="port" type="text" value="" />
+      </div>
+	  
+	  <div class="homey-form-group">
+        <label class="homey-form-label" for="apikey">API Key</label>
+        <input class="homey-form-input" id="apikey" type="password" value="" />
+      </div>
+	  
+	  <div class="homey-form-group">
+        <label class="homey-form-label" for="logboek">Log</label>
+        <textarea class="homey-form-input" id="logboek" style="width:100%;" rows="20" /></textarea>
+      </div>
+    </fieldset>
+
+    <button id="save" class="homey-button-primary-full">Save changes</button>
+	<button id="clearlog" class="homey-button-danger-full">Clear log</button>
+
+    <script type="text/javascript">
+      // a method named 'onHomeyReady' must be present in your code
+      function onHomeyReady(Homey) {
+        // Tell Homey we're ready to be displayed
+        Homey.ready();
+
+        var ipElement = document.getElementById("ipadress");
+        var portElement = document.getElementById("port");
+        var saveElement = document.getElementById("save");
+		var clearlogElement = document.getElementById("clearlog");
+		var apikeyElement = document.getElementById("apikey");
+		const logboekTextarea = document.getElementById('logboek');
+
+        Homey.get("ipadress", function (err, ipadress) {
+          if (err) return Homey.alert(err);
+          ipElement.value = ipadress;
+        });
+		
+		Homey.get("apikey", function (err, apikey) {
+          if (err) return Homey.alert(err);
+          apikeyElement.value = apikey;
+        });
+
+      Homey.get('logboek', function (err, logboek) {
+        if (err) {
+          Homey.alert(err);
+          return;
+        }
+        // Vul de textarea met de opgehaalde waarde
+        logboekTextarea.value = logboek || '';
+      });
+		
+		Homey.get("port", function (err, port) {
+          if (err) return Homey.alert(err);
+          portElement.value = port;
+        });
+
+        saveElement.addEventListener("click", function (e) {
+          Homey.set("ipadress", ipElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+          Homey.set("port", portElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+		  Homey.set("apikey", apikeyElement.value, function (err) {
+		  Homey.alert("settings are saved");
+            if (err) return Homey.alert(err);
+          });
+        });
+		
+		
+		 clearlogElement.addEventListener("click", function (e) {
+          Homey.set("logboek", "", function (err) {
+		  location.reload();
+            if (err) return Homey.alert(err);
+          });
+         
+        });
+      }
+    </script>
+	<p>Developer: Jeroen van den Boogaart</p>
+  </body>
+</html>

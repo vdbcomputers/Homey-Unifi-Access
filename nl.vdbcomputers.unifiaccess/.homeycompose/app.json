@@ -1,0 +1,39 @@
+{
+  "id": "nl.vdbcomputers.unifiaccess",
+  "version": "1.0.8",
+  "compatibility": ">=5.0.0",
+  "homepage": "https://vdbcomputers.nl/homey-unifi-access-app/",
+  "support": "mailto:info@vdbcomputers.nl",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Unifi Access"
+  },
+  "author": {
+    "name": "Jeroen van den Boogaart",
+    "email": "info@vdbcomputers.nl"
+  },
+  "description": {
+    "en": "Connect to Unifi Access API"
+  },
+  "category": [
+    "security"
+  ],
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "jeroenvandenboogaart"
+      }
+    }
+  },
+  "brandColor": "#2F2F2F",
+  "permissions": [],
+  "icon": "/assets/icon.png",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  }
+}

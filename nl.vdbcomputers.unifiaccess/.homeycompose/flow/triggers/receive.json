@@ -1,0 +1,22 @@
+{
+  "title": {
+    "en": "Receive data"
+  },
+  "triggers": [
+    {
+      "id": "unifi_access_data_received", 
+      "title": {
+        "en": "When Unifi Access data is received"
+      },
+      "args": [
+        {
+          "name": "receivedData",
+          "type": "string",
+          "title": {
+            "en": "Received Data"
+          }
+        }
+      ]
+    }
+  ]
+}
