@@ -1,6 +1,6 @@
 const Homey = require('homey');
 const WebSocket = require('ws');
-const LogToFile = require('homey-log-to-file');
+const LogToFile = require('homey-log-to-file'); // log available at: http://[ip homey]:8008/
 
 class MyApp extends Homey.App {
   async onInit() {
