@@ -9,4 +9,4 @@ Data Opslag en Beschikbaarheid in Flows:
 
 Alle ontvangen notificaties worden opgeslagen als data-entiteiten. Deze gegevens zijn direct toegankelijk voor gebruik in geautomatiseerde processen.
 Gebruikers kunnen specifieke acties of waarschuwingen instellen in reactie op deze meldingen, zoals een melding sturen naar een beveiligingsteam bij een deur-open event, of het loggen van alle gebeurtenissen voor toekomstige referentie.
-Voorbereiding voor Uitbreiding:
+
