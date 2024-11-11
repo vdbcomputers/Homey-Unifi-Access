@@ -37,6 +37,13 @@
         <label class="homey-form-label" for="logboek">Log</label>
         <textarea class="homey-form-input" id="logboek" style="width:100%;" rows="20" /></textarea>
       </div>
+	   <div class="homey-form-group">
+        <label class="homey-form-label" for="logboek">Log http://[homeyip]:8008</label>
+		<select class="homey-form-input" id="logging" name="logging">
+		<option value='1'>Enable</option>
+		<option value='0'>Disable</option>
+		</select>
+      </div>
     </fieldset>
 
     <button id="save" class="homey-button-primary-full">Save changes</button>
@@ -53,7 +60,18 @@
         var saveElement = document.getElementById("save");
 		var clearlogElement = document.getElementById("clearlog");
 		var apikeyElement = document.getElementById("apikey");
+		var loggingElement = document.getElementById("logging");
+		
+		var loggingElementset = document.getElementById("logging");
+		loggingElementset.value = loggingElement; 
+	
 		const logboekTextarea = document.getElementById('logboek');
+		
+		 Homey.get("logging", function (err, logging) {
+          if (err) return Homey.alert(err);
+          loggingElement.value = logging;
+        });
+		
 
         Homey.get("ipadress", function (err, ipadress) {
           if (err) return Homey.alert(err);
@@ -80,6 +98,11 @@
         });
 
         saveElement.addEventListener("click", function (e) {
+		
+		 Homey.set("logging", loggingElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+		  
           Homey.set("ipadress", ipElement.value, function (err) {
             if (err) return Homey.alert(err);
           });

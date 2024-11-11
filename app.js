@@ -4,7 +4,15 @@ const LogToFile = require('homey-log-to-file'); // log available at: http://[ip 
 
 class MyApp extends Homey.App {
   async onInit() {
-    await LogToFile();
+	  
+	   const logging = this.homey.settings.get('logging');
+    
+    if (logging === '1') {
+      await LogToFile();
+	  this.log("Logging gestart");
+    }
+	
+    
     this.tokens = {};  // Tokens object om dynamisch aangemaakte tokens op te slaan
     this.triggerUnifiAccess = this.homey.flow.getTriggerCard('receive');
     this.log('App UnifiAccess is gestart');
@@ -15,6 +23,7 @@ class MyApp extends Homey.App {
     const ipadress = this.homey.settings.get('ipadress');
     const port = this.homey.settings.get('port');
     const apikey = this.homey.settings.get('apikey');
+	
 
     const ws = new WebSocket('wss://' + ipadress + ':' + port + '/api/v1/developer/devices/notifications', {
       rejectUnauthorized: false,
