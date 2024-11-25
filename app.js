@@ -18,53 +18,70 @@ class MyApp extends Homey.App {
     this.log('App UnifiAccess is gestart');
     this._connectWebSocket();
   }
+  
+  
+  
+  
 
-  _connectWebSocket() {
-    const ipadress = this.homey.settings.get('ipadress');
-    const port = this.homey.settings.get('port');
-    const apikey = this.homey.settings.get('apikey');
-	
+_connectWebSocket() {
+  const ipadress = this.homey.settings.get('ipadress');
+  const port = this.homey.settings.get('port');
+  const apikey = this.homey.settings.get('apikey');
 
-    const ws = new WebSocket('wss://' + ipadress + ':' + port + '/api/v1/developer/devices/notifications', {
-      rejectUnauthorized: false,
-      headers: {
-        'Authorization': 'Bearer ' + apikey,
-        'Upgrade': 'websocket',
-        'Connection': 'Upgrade'
-      }
-    });
-
-    ws.on('open', () => {
-      console.log('WebSocket verbinding geopend');
-      this._log('WebSocket verbinding geopend');
-    });
-
-    ws.on('message', async (data) => {
-      const jsonData = JSON.parse(data.toString('utf8'));
-      if (jsonData != 'Hello') {
-        console.log('Data ontvangen:', jsonData);
-        this._log(JSON.stringify(jsonData, null, 2)); // Log de ontvangen data
-
-        await this.homey.settings.set('logboek', JSON.stringify(jsonData));
-        await this.processJson('', jsonData);
-        this.triggerUnifiAccess.trigger({
-          receivedData: jsonData
-        }).catch(err => this.error('Flow trigger fout:', err));
-      }
-    });
-
-    ws.on('error', (error) => {
-      console.error('Fout in WebSocket verbinding:', error);
-      this._log('WebSocket fout: ' + error.message);
-      this._reconnectWebSocket();
-    });
-
-    ws.on('close', () => {
-      console.log('WebSocket verbinding gesloten, opnieuw verbinden...');
-      this._log('WebSocket verbinding gesloten');
-      this._reconnectWebSocket();
-    });
+  // Controleer of de vereiste instellingen aanwezig zijn
+  if (!ipadress || !port || !apikey) {
+    console.error('WebSocket-configuratie is onvolledig. Controleer de instellingen.');
+    this._log('WebSocket-configuratie is onvolledig. Controleer de instellingen.');
+    return; // Stop verdere uitvoering
   }
+
+  const ws = new WebSocket('wss://' + ipadress + ':' + port + '/api/v1/developer/devices/notifications', {
+    rejectUnauthorized: false,
+    headers: {
+      'Authorization': 'Bearer ' + apikey,
+      'Upgrade': 'websocket',
+      'Connection': 'Upgrade'
+    }
+  });
+
+  ws.on('open', () => {
+    console.log('WebSocket verbinding geopend');
+    this._log('WebSocket verbinding geopend');
+  });
+
+  ws.on('message', async (data) => {
+    const jsonData = JSON.parse(data.toString('utf8'));
+    if (jsonData != 'Hello') {
+      console.log('Data ontvangen:', jsonData);
+      this._log(JSON.stringify(jsonData, null, 2)); // Log de ontvangen data
+
+      await this.homey.settings.set('logboek', JSON.stringify(jsonData));
+      await this.processJson('', jsonData);
+      this.triggerUnifiAccess.trigger({
+        receivedData: jsonData
+      }).catch(err => this.error('Flow trigger fout:', err));
+    }
+  });
+
+  ws.on('error', (error) => {
+    console.error('Fout in WebSocket verbinding:', error);
+    this._log('WebSocket fout: ' + error.message);
+    this._reconnectWebSocket();
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket verbinding gesloten, opnieuw verbinden...');
+    this._log('WebSocket verbinding gesloten');
+    this._reconnectWebSocket();
+  });
+}
+  
+  
+  
+  
+  
+  
+  
 
   _reconnectWebSocket() {
     setTimeout(() => {
