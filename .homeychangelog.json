@@ -25,5 +25,8 @@
   },
   "1.1.0": {
     "en": "Images, information, and script updated; bug fixes"
+  },
+  "1.1.1": {
+    "en": "fix crash first use"
   }
 }
